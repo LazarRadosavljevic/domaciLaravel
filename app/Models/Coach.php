@@ -13,5 +13,10 @@ class Coach extends Model
 
     ];
 
+    public function team()
+    {
+        return $this->hasOne(Team::class);
+    }
+
     
 }

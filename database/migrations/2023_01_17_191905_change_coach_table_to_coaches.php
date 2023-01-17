@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCoachTable extends Migration
+class ChangeCoachTableToCoaches extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateCoachTable extends Migration
      */
     public function up()
     {
-        Schema::create('coaches', function (Blueprint $table) {
-            $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->integer('age');
-            $table->foreignId('team_id');
-            $table->timestamps();
+        Schema::table('coaches', function (Blueprint $table) {
+            Schema::rename('coach','coaches');
         });
     }
 
@@ -30,6 +25,8 @@ class CreateCoachTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coach');
+        Schema::table('coaches', function (Blueprint $table) {
+            //
+        });
     }
 }

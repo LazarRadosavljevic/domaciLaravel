@@ -13,10 +13,10 @@ class CreateTeamTable extends Migration
      */
     public function up()
     {
-        Schema::create('team', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('created at');
+            $table->integer('created at');
             $table->string('city');
             $table->string('hall');
             $table->foreignId('coach_id');
