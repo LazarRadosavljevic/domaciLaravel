@@ -37,5 +37,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
+    Route::resource('players',PlayerController::class)->only(['storage','update','destroy']);
+
     Route::get('/logout',[AuthController::class,'logout']);
 });
+
+Route::resource('players',PlayerController::class);
