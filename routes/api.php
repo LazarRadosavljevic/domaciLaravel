@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/players',[PlayerController::class,'index']);
+
 
 Route::get('/coaches',[CoachController::class,'index']);
 
@@ -37,9 +37,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
-    Route::resource('players',PlayerController::class)->only(['storage','update','destroy']);
+    Route::resource('players',PlayerController::class)->only(['store','destroy','update']);
 
-    Route::get('/logout',[AuthController::class,'logout']);
+    Route::post('/logout',[AuthController::class,'logout']);
+  
 });
 
 Route::resource('players',PlayerController::class);

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PlayerResource;
+use Illuminate\Support\Facades\Validator;
 
 class PlayerController extends Controller
 {
@@ -59,7 +61,7 @@ class PlayerController extends Controller
             'age'=>$request->age,
             'height'=>$request->height,
             'position'=>$request->position,
-            'team_id'=>Auth::team()->id 
+            'team_id'=>$request->team_id
         ]);
 
         return response()->json(['player' => new PlayerResource($player), 'message' => 'Player created successfully']);
@@ -99,21 +101,26 @@ class PlayerController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'firstname'=>$request->firstname,
-            'lastname'=>$request->lastname,
-            'age'=>$request->age,
-            'height'=>$request->height,
-            'position'=>$request->position,
-            'team_id'=>Auth::team()->id 
+            'firstname' => 'required|string|max:50',
+            'lastname' => 'required|string|max:50',
+            'age' => 'required|integer',
+            'height' => 'required|integer',
+            'position'=>'required|string',
+            'team_id'=>'required'
         ]);
 
         if($validator->fails()){
             return response()->json(['error' => $validator->errors(), 'Validation Error']);
         }
 
-        $player->update($data);
+        $player->firstname = $request->firstname;
+        $player->lastname = $request->lastname;
+        $player->age = $request->age;
+        $player->height = $request->height;
+        $player->position = $request->position;
+        $player->team_id = $request->team_id;
 
-        return response()->json(['player' => new PlayerResource($player), 'message' => 'Player updated successfully']);
+        return response()->json(['Player created successfully.', new PlayerResource($player)]);
     }
 
 
@@ -128,7 +135,7 @@ class PlayerController extends Controller
     {
         $player->delete();
 
-        return response()->json(['message' => 'Player deleted successfully']);
+        return response()->json(['Player deleted successfully']);
     
     }
 }
